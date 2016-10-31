@@ -71,6 +71,7 @@ public class ElasticsearchTemplateTests {
 	private static final String INDEX_1_NAME = "test-index-1";
 	private static final String INDEX_2_NAME = "test-index-2";
 	private static final String TYPE_NAME = "test-type";
+	public static final String LINE_SEPARATOR = System.lineSeparator();
 
 	@Autowired
 	private ElasticsearchTemplate elasticsearchTemplate;
@@ -2036,14 +2037,14 @@ public class ElasticsearchTemplateTests {
 		String content = ElasticsearchTemplate.readFileFromClasspath(settingsFile);
 
 		// then
-		assertThat(content, is("index:\n" +
-				"  number_of_shards: 1\n" +
-				"  number_of_replicas: 0\n" +
-				"  analysis:\n" +
-				"    analyzer:\n" +
-				"      emailAnalyzer:\n" +
-				"        type: custom\n" +
-				"        tokenizer: uax_url_email\n"));
+		assertThat(content, is("index:" + LINE_SEPARATOR +
+				"  number_of_shards: 1" + LINE_SEPARATOR +
+				"  number_of_replicas: 0" + LINE_SEPARATOR +
+				"  analysis:" + LINE_SEPARATOR +
+				"    analyzer:" + LINE_SEPARATOR +
+				"      emailAnalyzer:" + LINE_SEPARATOR +
+				"        type: custom" + LINE_SEPARATOR +
+				"        tokenizer: uax_url_email" + LINE_SEPARATOR));
 	}
 
 	private IndexQuery getIndexQuery(SampleEntity sampleEntity) {
