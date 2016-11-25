@@ -24,6 +24,8 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.springframework.core.convert.converter.Converter;
 
+import static java.time.format.DateTimeFormatter.*;
+
 /**
  * DateTimeConverters
  *
@@ -33,45 +35,58 @@ import org.springframework.core.convert.converter.Converter;
 
 public final class DateTimeConverters {
 
-	private static DateTimeFormatter formatter = ISODateTimeFormat.dateTime().withZone(DateTimeZone.UTC);
+    private static DateTimeFormatter formatter = ISODateTimeFormat.dateTime().withZone(DateTimeZone.UTC);
+    private static java.time.format.DateTimeFormatter javaDateTimeFormatter = ISO_DATE_TIME;
 
-	public enum JodaDateTimeConverter implements Converter<ReadableInstant, String> {
-		INSTANCE;
+    public enum JodaDateTimeConverter implements Converter<ReadableInstant, String> {
+        INSTANCE;
 
-		@Override
-		public String convert(ReadableInstant source) {
-			if (source == null) {
-				return null;
-			}
-			return formatter.print(source);
-		}
+        @Override
+        public String convert(ReadableInstant source) {
+            if (source == null) {
+                return null;
+            }
+            return formatter.print(source);
+        }
 
-	}
+    }
 
-	public enum JodaLocalDateTimeConverter implements Converter<LocalDateTime, String> {
-		INSTANCE;
+    public enum JodaLocalDateTimeConverter implements Converter<LocalDateTime, String> {
+        INSTANCE;
 
-		@Override
-		public String convert(LocalDateTime source) {
-			if (source == null) {
-				return null;
-			}
-			return formatter.print(source.toDateTime(DateTimeZone.UTC));
-		}
+        @Override
+        public String convert(LocalDateTime source) {
+            if (source == null) {
+                return null;
+            }
+            return formatter.print(source.toDateTime(DateTimeZone.UTC));
+        }
 
-	}
+    }
 
-	public enum JavaDateConverter implements Converter<Date, String> {
-		INSTANCE;
+    public enum JavaDateConverter implements Converter<Date, String> {
+        INSTANCE;
 
-		@Override
-		public String convert(Date source) {
-			if (source == null) {
-				return null;
-			}
+        @Override
+        public String convert(Date source) {
+            if (source == null) {
+                return null;
+            }
 
-			return formatter.print(source.getTime());
-		}
+            return formatter.print(source.getTime());
+        }
+    }
 
-	}
+    public enum JavaLocalDateTimeConverter implements Converter<java.time.LocalDateTime, String> {
+        INSTANCE;
+
+        @Override
+        public String convert(java.time.LocalDateTime localDateTime) {
+            if (localDateTime == null) {
+                return null;
+            }
+            return javaDateTimeFormatter.format(localDateTime);
+        }
+    }
 }
+
